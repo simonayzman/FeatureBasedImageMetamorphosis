@@ -56,7 +56,7 @@ Note that, at the moment, this only supports PNG files - we will assume this for
 
 #####USAGE
 
-Note the command line usage:
+Note the command line usage:<br>
 	./imageMorph (source.feat) (target.feat) (source.png) (target.png)<br>
 				 (intermediaryImagesBaseName) (numFrames) (easingFunction)<br>
 
