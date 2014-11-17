@@ -4,6 +4,8 @@ by Peng Hui How, Josh Israel, and Simon Ayzman
 
 See the final animations in the videos and animations directories, or on YouTube at: https://www.youtube.com/watch?v=GdLh_sE-e-o&list=PLjIR0u8ThmEVRRVTpQRo4wDKnG87FPNdU
 
+Based on the paper <i>Feature-Based Image Metamorphosis</i> by Thaddeus Beier and Shawn Neely
+
 ###featureAdder
 
 #####OVERVIEW
