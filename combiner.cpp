@@ -9,7 +9,7 @@ using namespace std;
 int main(int argc, char** argv) { 
   if(argc < 3) {
     cerr << "usage: ./combiner <base filename> <total number of frames> "
-        << "[<video name> <fps>]" << endl;
+         << "[<video name> <fps>]" << endl;
     exit(1);
   } else if(argc > 5) {
     cout << "Ignoring excessive arguments..." << endl;
@@ -36,15 +36,14 @@ int main(int argc, char** argv) {
   
   for (int i = 1; i <= numFrames; i++) {
     stringstream count;
-	count << setw(width) << setfill('0') << i;
-	stringstream ss;
-	ss << baseFilename << count.str() << ".png";
-	unique_ptr<SimpleImage> image(new SimpleImage(ss.str()));
-	images.push_back(move(image));
+  	count << setw(width) << setfill('0') << i;
+  	stringstream ss;
+  	ss << baseFilename << count.str() << ".png";
+  	unique_ptr<SimpleImage> image(new SimpleImage(ss.str()));
+  	images.push_back(move(image));
   }
   
   // Throw them together
-  SimpleVideoWriter writer(videoName, fps, images[0]->GetWidth(),
-      images[0]->GetHeight());
+  SimpleVideoWriter writer(videoName, fps, images[0]->GetWidth(), images[0]->GetHeight());
   writer.WriteToVideo(images);
 }

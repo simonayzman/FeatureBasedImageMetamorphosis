@@ -86,8 +86,7 @@ float weightFunc(float length, float dist, float a, float b, float p){
 }
 
 //field morphing
-ImagePtr FieldMorphFixedTime(const SimpleImage& image,
-    vector<Feature> sourceFeatures, vector<Feature> destinationFeatures) {
+ImagePtr FieldMorphFixedTime(const SimpleImage& image, vector<Feature> sourceFeatures, vector<Feature> destinationFeatures) {
   int numFeatures = sourceFeatures.size();
   ImagePtr result(new SimpleImage(windowWidth, windowHeight, WHITE));
   for(int x = 0; x < windowWidth; ++x) {
@@ -128,7 +127,7 @@ ImagePtr FieldMorphFixedTime(const SimpleImage& image,
 }
 
 ImagePtr FieldMorph(const SimpleImage& image, vector<Feature> sourceFeatures,
-    vector<Feature> destinationFeatures, float t) {
+                    vector<Feature> destinationFeatures, float t) {
   vector<Feature> intermediateFeatures;
   int numFeatures = sourceFeatures.size();
   for(int i = 0; i < numFeatures; ++i) {
@@ -151,7 +150,7 @@ ImagePtr LinearBlend(SimpleImage *src, SimpleImage *dest, float t) {
 }
 
 ImagePtr ImageMorph(const SimpleImage& source, const SimpleImage& destination,
-    vector<Feature> sourceFeatures, vector<Feature> destinationFeatures, float t) {
+                    vector<Feature> sourceFeatures, vector<Feature> destinationFeatures, float t) {
   ImagePtr sourceMorphed = FieldMorph(source, sourceFeatures, destinationFeatures, t); 
   ImagePtr destinationMorphed = FieldMorph(destination, destinationFeatures, sourceFeatures,
       1.f - t);
@@ -159,9 +158,9 @@ ImagePtr ImageMorph(const SimpleImage& source, const SimpleImage& destination,
 }
 
 //generate the intermediate images
-vector<ImagePtr> FramesMorph(const SimpleImage& sourceImage,
-    const SimpleImage& destinationImage, string sourceFilename,
-	string destinationFilename, int numFrames, EasingFunction easer) {
+vector<ImagePtr> FramesMorph(const SimpleImage& sourceImage, const SimpleImage& destinationImage, 
+                             string sourceFilename, string destinationFilename, 
+                             int numFrames, EasingFunction easer) {
   vector<ImagePtr> ret;
   vector<Feature> sourceFeatures = getFeatures(sourceFilename);
   vector<Feature> destinationFeatures = getFeatures(destinationFilename);
@@ -183,9 +182,9 @@ vector<ImagePtr> FramesMorph(const SimpleImage& sourceImage,
 int main(int argc, char** argv) {
   if(argc < 8) {
     cerr << "usage: ./imageMorph <source.feat> <destination.feat> <source.png> "
-	    << "<destination.png> <intermediaryImagesBaseName> <numFrames> "
-		<< "<mode(-l or -s), -l indicates linear and -s indicates "
-		<< "sine curve>" << endl;
+	       << "<destination.png> <intermediaryImagesBaseName> <numFrames> "
+		     << "<mode(-l or -s), -l indicates linear and -s indicates "
+		    << "sine curve>" << endl;
     exit(1);
   } else if(argc > 8) {
     cout << "Ignoring excessive arguments..." << endl;
@@ -213,8 +212,7 @@ int main(int argc, char** argv) {
   windowWidth = max(sourceImage.GetWidth(), destinationImage.GetWidth());
   windowHeight = max(sourceImage.GetHeight(), destinationImage.GetHeight());
 
-  vector<ImagePtr> frames = FramesMorph(sourceImage, destinationImage, argv[1], 
-      argv[2], atoi(argv[6]), easer); //argv[6] is the number of frames
+  vector<ImagePtr> frames = FramesMorph(sourceImage, destinationImage, argv[1], argv[2], atoi(argv[6]), easer); //argv[6] is the number of frames
   SimpleVideoWriter videoWriter("out.avi", 15, windowWidth, windowHeight);
   videoWriter.WriteToVideo(frames);
   return 0;

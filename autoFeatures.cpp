@@ -27,8 +27,8 @@ string window_name = "Capture - Face detection";
 
 int main(int argc, const char** argv) {
   if(argc < 3) {
-    cerr << "usage: ./frameExtractor <input.png> <featurebasename.feat>"
-        << endl;
+    cerr << "usage: ./autoFeatures <input.png> <featurebasename.feat>"
+         << endl;
     exit(1);
   } else if(argc > 3) {
     cout << "Ignoring extra arguments..." << endl;
@@ -39,15 +39,15 @@ int main(int argc, const char** argv) {
   //-- 1. Load the cascades
   if(!nose_cascade.load(nose_cascade_name)) {
     printf("--(!)Error loading nose xml\n");
-	return -1;
+	  return -1;
   }
   if(!eye_cascade.load(eye_cascade_name)){
     printf("--(!)Error loading eye xml\n");
-	return -1;
+	  return -1;
   }
   if(!mouth_cascade.load(mouth_cascade_name)){
     printf("--(!)Error loading mouth xml\n");
-	return -1;
+	  return -1;
   }
 
   Mat image = imread(string(argv[1]), IMREAD_COLOR); // Read the file
@@ -56,8 +56,7 @@ int main(int argc, const char** argv) {
 
 // Converts a rectangle to a pair of features:
 // Top left --> top right and top left --> lower left
-void RectToFeatures(Rect rect, int width, int height,
-    vector<Feature>& features) {
+void RectToFeatures(Rect rect, int width, int height, vector<Feature>& features) {
   Point tl = rect.tl();
   Point bottomRight = rect.br();
   Vertex2f topLeft(rect.tl().x/float(width), rect.tl().y/float(height));
@@ -80,20 +79,20 @@ void detectAndDisplay(Mat frame, string outFile) {
   nose_cascade.detectMultiScale(frame_gray, faces, 1.1, 2,
       0|CV_HAAR_SCALE_IMAGE, Size(30, 30));
   for (int i = 0; i < std::min( (size_t) 1U, (size_t) faces.size()); i++) {
-	RectToFeatures(faces[i], frame.cols, frame.rows, features);
+	  RectToFeatures(faces[i], frame.cols, frame.rows, features);
     rectangle(frame, faces[i], Scalar(255, 0, 0));
   }  
   eye_cascade.detectMultiScale(frame_gray, faces, 1.1, 2,
       0|CV_HAAR_SCALE_IMAGE, Size(30, 30));
   for (int i = 0; i < std::min( (size_t) 2U, (size_t) faces.size()); i++) {
-	RectToFeatures(faces[i], frame.cols, frame.rows, features);
+	  RectToFeatures(faces[i], frame.cols, frame.rows, features);
     rectangle(frame, faces[i], Scalar(255, 0, 0));
   } 
   mouth_cascade.detectMultiScale(frame_gray, faces, 1.1, 2,
       0|CV_HAAR_SCALE_IMAGE, Size(30, 30));
   for (int i = 0; i < std::min( (size_t) 1U, (size_t) faces.size()); i++) {
     RectToFeatures(faces[i], frame.cols, frame.rows, features);
-	rectangle(frame, faces[i], Scalar(255, 0, 0));
+	  rectangle(frame, faces[i], Scalar(255, 0, 0));
   }
 
   // Write out the features
